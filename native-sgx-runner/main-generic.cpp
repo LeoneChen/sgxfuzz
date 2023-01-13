@@ -96,10 +96,14 @@ int run_ecall(char* init_call_file) {
         kAFL_hypercall(HYPERCALL_KAFL_RANGE_SUBMIT, (const uintptr_t) (const uint64_t[])
             { (uint64_t) enclave_start, (uint64_t) & enclave_end, 0 }
         );
+        hprintf("Setting range %lu: %lx-%lx\n", 0, (uint64_t)enclave_start,
+                (uint64_t)&enclave_end);
         /* disable range_b */
         kAFL_hypercall(HYPERCALL_KAFL_RANGE_SUBMIT, (const uintptr_t) (const uint64_t[])
             { 0xFFFFFFFFFFFFF001L, 0XFFFFFFFFFFFFF002L, 1 }
         );
+        hprintf("Setting range %lu: %lx-%lx\n", 1,
+                (uint64_t)0xFFFFFFFFFFFFF001L, (uint64_t)0XFFFFFFFFFFFFF002L);
 
         kafl_dump_file_t file_obj = { (uint64_t) "enclave_addr.range", 0, 0, 0 };
         kAFL_hypercall(HYPERCALL_KAFL_DUMP_FILE, (uint64_t)(&file_obj));
@@ -154,6 +158,8 @@ int run_ecall(char* init_call_file) {
 }
 
 int main(int argc, char** argv) {
+    hprintf("Enclave: Base=%016p Size=0x%016lx\n", enclave_start,
+            &enclave_end - enclave_start);
     if (argc >= 2) {
         printf("Reading %s as init call input\n", argv[1]);
         return run_ecall(argv[1]);

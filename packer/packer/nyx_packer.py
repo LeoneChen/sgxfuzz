@@ -341,53 +341,55 @@ def compile(config):
         download_script += "./hget \"%s\" \"%s\"\n"%(os.path.basename(config.argument_values["extra_file"]), os.path.basename(config.argument_values["extra_file"]))
 
 
-    download_script += "LD_LIBRARY_PATH=/tmp/ "
+    # download_script += "echo \"Before execute\"\n"
+    # download_script += "LD_LIBRARY_PATH=/tmp/ "
 
-    if asan_lib:
-        download_script += "LD_BIND_NOW=1 LD_PRELOAD=/tmp/%s:ld_preload_fuzz.so "%(asan_lib)
-    else:
-        download_script += "LD_BIND_NOW=1 LD_PRELOAD=/tmp/ld_preload_fuzz.so "
-    download_script += "ASAN_OPTIONS=detect_leaks=0:allocator_may_return_null=1:log_path=/tmp/data.log:abort_on_error=true "
+    # if asan_lib:
+    #     download_script += "LD_BIND_NOW=1 LD_PRELOAD=/tmp/%s:ld_preload_fuzz.so "%(asan_lib)
+    # else:
+    #     download_script += "LD_BIND_NOW=1 LD_PRELOAD=/tmp/ld_preload_fuzz.so "
+    # download_script += "ASAN_OPTIONS=detect_leaks=0:allocator_may_return_null=1:log_path=/tmp/data.log:abort_on_error=true "
 
-    if DELAYED_INIT:
-        download_script += "DELAYED_NYX_FUZZER_INIT=ON "
-    if AFL_MODE:
-        download_script += "NYX_AFL_PLUS_PLUS_MODE=ON "
-    if FAST_EXIT_MODE:
-        download_script += "NYX_FAST_EXIT_MODE=TRUE "
-    if NET_FUZZ_MODE:
-        download_script += "NYX_NET_FUZZ_MODE=ON "
-    if NET_FUZZ_PORT:
-        download_script += "NYX_NET_PORT=%s "%(NET_FUZZ_PORT)
-    if LEGACY_FILE_MODE:
-        download_script += "NYX_LEGACY_FILE_MODE=%s "%(config.argument_values["file"])
-    if not DISABLE_PT_RANGE_A:
-        download_script += "NYX_PT_RANGE_AUTO_CONF_A=ON "
-    if not DISABLE_PT_RANGE_B:
-        download_script += "NYX_PT_RANGE_AUTO_CONF_B=ON "
-    if asan_lib or asan_executable:
-        download_script += "NYX_ASAN_EXECUTABLE=TRUE "
-    else:
-        download_script += "MALLOC_CHECK_=2 " 
+    # if DELAYED_INIT:
+    #     download_script += "DELAYED_NYX_FUZZER_INIT=ON "
+    # if AFL_MODE:
+    #     download_script += "NYX_AFL_PLUS_PLUS_MODE=ON "
+    # if FAST_EXIT_MODE:
+    #     download_script += "NYX_FAST_EXIT_MODE=TRUE "
+    # if NET_FUZZ_MODE:
+    #     download_script += "NYX_NET_FUZZ_MODE=ON "
+    # if NET_FUZZ_PORT:
+    #     download_script += "NYX_NET_PORT=%s "%(NET_FUZZ_PORT)
+    # if LEGACY_FILE_MODE:
+    #     download_script += "NYX_LEGACY_FILE_MODE=%s "%(config.argument_values["file"])
+    # if not DISABLE_PT_RANGE_A:
+    #     download_script += "NYX_PT_RANGE_AUTO_CONF_A=ON "
+    # if not DISABLE_PT_RANGE_B:
+    #     download_script += "NYX_PT_RANGE_AUTO_CONF_B=ON "
+    # if asan_lib or asan_executable:
+    #     download_script += "NYX_ASAN_EXECUTABLE=TRUE "
+    # else:
+    #     download_script += "MALLOC_CHECK_=2 " 
 
     
-    download_script += "./target_executable %s"%(config.argument_values["args"]) # fixme
+    # download_script += "./target_executable %s"%(config.argument_values["args"]) # fixme
 
-    if NYX_NET_STDIN:
-        download_script += " < stdin.input "
-    else:
-        download_script += " "
+    # if NYX_NET_STDIN:
+    #     download_script += " < stdin.input "
+    # else:
+    #     download_script += " "
 
-    if STDOUT_STDERR_DEBUG:
-        download_script += " > stdout.txt 2> stderr.txt\n"
-        download_script += "cat stdout.txt | ./hcat\n"
-        download_script += "cat stderr.txt | ./hcat\n"
-    else:
-        download_script += " > /dev/null 2> /dev/null\n"
+    # if STDOUT_STDERR_DEBUG:
+    #     download_script += " > stdout.txt 2> stderr.txt\n"
+    #     download_script += "cat stdout.txt | ./hcat\n"
+    #     download_script += "cat stderr.txt | ./hcat\n"
+    # else:
+    #     download_script += " > /dev/null 2> /dev/null\n"
 
  
-    download_script += "dmesg | grep segfault | ./hcat\n"
-    download_script += "./habort\n"
+    # download_script += "echo \"After execute\"\n"
+    # download_script += "dmesg | grep segfault | ./hcat\n"
+    # download_script += "./habort\n"
 
     # Todo: ASAN, memlimit, stdin, filemode ...
 

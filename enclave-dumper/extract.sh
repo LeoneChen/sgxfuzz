@@ -30,7 +30,7 @@ $SIGNTOOL gendata -enclave "$enclave" -out "$out" "$@" | grep -vF '<' > "$dump" 
 echo "--- SGX SIGN END ---"
 rm -f -- "$out"
 
-python "$BASE/DumpReader.py" "$dump" | tee "$enclave.tcs.txt"
+python3 "$BASE/DumpReader.py" "$dump" | tee "$enclave.tcs.txt"
 mv "$dump" "$enclave.dump"
 
 mv "$dump.mem" "$enclave.mem"

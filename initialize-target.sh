@@ -108,9 +108,11 @@ cat > fuzz.sh <<EOF
  -seed_dir "$evaldir/seeds/" \\
  --purge \\
  -R \\
- -mem 512 \\
+ -mem 4G \\
  -funky \\
- -p 40 \\
+ -p 1 \\
+ -trace \\
+ -dump_pt \\
  -redqueen -redq_do_simple \\
  $FEATURE \\
  -abort_time 24 \\

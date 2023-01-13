@@ -154,10 +154,6 @@ def add_args_fuzzer(parser):
                         type=int, required=False, default=None)
     parser.add_argument('-abort_exec', metavar='<n>', help="exit after max executions",
                         type=int, required=False, default=None)
-    parser.add_argument('-no_pipe_hprintf', required=False, help="disable hprintf pipe to seperate log file", 
-                        action='store_true', default=False)
-    parser.add_argument('-no_pipe_serial', required=False, help="disable serial output pipe to seperate log file",
-                        action='store_true', default=False)
 
 # Qemu/Slave-specific launch options
 def add_args_qemu(parser):
@@ -210,6 +206,10 @@ def add_args_qemu(parser):
     parser.add_argument('-catch_resets', required=False, help='interpret silent VM reboot as KASAN events',
                         action='store_true', default=False)
     parser.add_argument('-gdbserver', required=False, help='enable Qemu gdbserver (use via kafl_debug.py!)',
+                        action='store_true', default=False)
+    parser.add_argument('-no_pipe_hprintf', required=False, help="disable hprintf pipe to seperate log file", 
+                        action='store_true', default=False)
+    parser.add_argument('-no_pipe_serial', required=False, help="disable serial output pipe to seperate log file",
                         action='store_true', default=False)
 
 

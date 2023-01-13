@@ -10,6 +10,9 @@
 
 #define STACK_SIZE 0x10000
 
+#ifdef linux
+    #undef linux
+#endif
 #define STR_EXPAND(tok) #tok
 #define LINK_DATA(var, path, section, align, perm) \
 extern uint8_t var ##_start[]; \

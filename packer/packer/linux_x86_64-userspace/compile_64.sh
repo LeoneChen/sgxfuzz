@@ -3,7 +3,7 @@ mkdir -p bin64/
 if [ "$LEGACY_MODE" = "ON" ]
 then
   # old kAFL mode shared library
-  gcc -shared -O0 -m64 -Werror -DLEGACY_MODE -fPIC src/ld_preload_fuzz.c src/misc/crash_handler.c src/misc/harness_state.c src/misc/struct_synth_report.c src/netfuzz/syscalls.c -I../../agents -o bin64/ld_preload_fuzz_legacy.so -ldl -lZydis -Isrc
+  gcc -shared -O0 -g -m64 -Werror -DLEGACY_MODE -fPIC src/ld_preload_fuzz.c src/misc/crash_handler.c src/misc/harness_state.c src/misc/struct_synth_report.c src/netfuzz/syscalls.c -I../../agents -o bin64/ld_preload_fuzz_legacy.so -ldl -lZydis -Isrc -L/home/leone/Documents/sgxfuzz/zydis/install/lib -I/home/leone/Documents/sgxfuzz/zydis/install/include
 else
   # latest and greatest nyx shared library
 
@@ -34,10 +34,10 @@ else
   fi
 fi
 
-gcc -m64  src/libnyx.c -o bin64/libnyx.so -shared -fPIC -Wall -std=gnu11 -Wl,-soname,libnyx.so
-gcc -O0 -m64 -Werror src/htools/habort.c -I../../agents -o bin64/habort
-gcc -O0 -m64 -Werror src/htools/hcat.c -I../../agents -o bin64/hcat
-gcc -O0 -m64 -Werror src/htools/hget.c -I../../agents -o bin64/hget
-gcc -O0 -m64 -Werror src/htools/hpush.c -I../../agents -o bin64/hpush
+gcc -m64 -g src/libnyx.c -o bin64/libnyx.so -shared -fPIC -Wall -std=gnu11 -Wl,-soname,libnyx.so
+gcc -O0 -g -m64 -Werror src/htools/habort.c -I../../agents -o bin64/habort
+gcc -O0 -g -m64 -Werror src/htools/hcat.c -I../../agents -o bin64/hcat
+gcc -O0 -g -m64 -Werror src/htools/hget.c -I../../agents -o bin64/hget
+gcc -O0 -g -m64 -Werror src/htools/hpush.c -I../../agents -o bin64/hpush
 
-gcc -O0 -m64 -static -Werror src/loader.c -I../../agents -o bin64/loader
+gcc -O0 -g -m64 -static -Werror src/loader.c -I../../agents -o bin64/loader
