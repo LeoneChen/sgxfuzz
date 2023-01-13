@@ -108,7 +108,7 @@ cat > fuzz.sh <<EOF
  -seed_dir "$evaldir/seeds/" \\
  --purge \\
  -R \\
- -mem 4G \\
+ -mem 4096 \\
  -funky \\
  -p 1 \\
  -trace \\
