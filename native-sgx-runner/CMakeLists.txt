@@ -1,6 +1,3 @@
-cmake_minimum_required(VERSION 3.16)
-
-project(native-sgx-runner)
 set(CMAKE_CXX_STANDARD 20)
 
 set(source
@@ -22,6 +19,16 @@ if (DEFINED NO_VM_RELOAD)
 	add_definitions(-DNO_VM_RELOAD=0${NO_VM_RELOAD})
 endif ()
 
-add_library(libnyx_dummy SHARED libnyx.c)
-add_executable(fuzz-generic main-generic.cpp ${source})
-target_link_libraries(fuzz-generic PRIVATE libnyx_dummy)
+get_filename_component(ROOT_DIR ${CMAKE_CURRENT_SOURCE_DIR}/.. ABSOLUTE)
+get_filename_component(PACKER_USPACE_SRC_DIR ${ROOT_DIR}/packer/packer/linux_x86_64-userspace/src ABSOLUTE)
+get_filename_component(ZYDIS_INSTALL_DIR ${ROOT_DIR}/zydis/install ABSOLUTE)
+
+add_executable(fuzz-generic main-generic.cpp ${source}
+    ${PACKER_USPACE_SRC_DIR}/misc/crash_handler.c
+    ${PACKER_USPACE_SRC_DIR}/misc/harness_state.c
+    ${PACKER_USPACE_SRC_DIR}/misc/struct_synth_report.c
+    ${PACKER_USPACE_SRC_DIR}/netfuzz/syscalls.c
+)
+
+target_include_directories(fuzz-generic PUBLIC ${CMAKE_CURRENT_BINARY_DIR} ${ROOT_DIR}/kAFLUSpaceUtil/include ${PACKER_USPACE_SRC_DIR} ${ZYDIS_INSTALL_DIR}/include)
+target_link_libraries(fuzz-generic PRIVATE ${ZYDIS_INSTALL_DIR}/lib/libZydis.a dl nyx_agent)

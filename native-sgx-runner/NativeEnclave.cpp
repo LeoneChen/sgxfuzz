@@ -9,7 +9,7 @@
 #include <csignal>
 
 extern "C" {
-#include "../packer/agents/nyx.h"
+#include "nyx.h"
 #include "libnyx.h"
 }
 
