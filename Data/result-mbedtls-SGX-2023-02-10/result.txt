@@ -1,0 +1,12 @@
+Time:             24H*Core
+All Times:        87.0M
+All Speed:        13.7K
+
+ECALL Times:      18474000
+ECALL Speed:      213.81
+
+Eff. Cov:         8.16%
+
+855035 Enter sgx_connect
+15474549 Enter sgx_accept
+2144416 Enter ssl_conn_handle

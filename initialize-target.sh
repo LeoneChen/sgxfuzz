@@ -88,7 +88,7 @@ LD_LIBRARY_PATH=. \\
  "$fuzz_target" \\
  "$share_dir" \\
  m64 --legacy --purge --no_pt_auto_conf_b --fast_reload_mode \\
- --delayed_init \\
+ --delayed_init --debug_stdin_stderr \\
  $args
 EOF
 
@@ -110,7 +110,10 @@ cat > fuzz.sh <<EOF
  -R \\
  -mem 512 \\
  -funky \\
- -p 40 \\
+ -p 1 \\
+ -cpu_affinity_offset 0 \\
+ -trace \\
+ -dump_pt \\
  -redqueen -redq_do_simple \\
  $FEATURE \\
  -abort_time 24 \\

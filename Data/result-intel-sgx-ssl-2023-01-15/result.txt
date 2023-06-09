@@ -1,0 +1,8 @@
+Time:             24H*1Core
+All Times:        124.9M
+All Speed:        1445
+
+ECALL Times:      0
+ECALL Speed:      0
+
+Eff. Cov:         0.01% (仅有Ctor)

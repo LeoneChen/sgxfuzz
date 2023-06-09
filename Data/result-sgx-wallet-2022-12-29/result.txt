@@ -1,0 +1,12 @@
+Time:             24H*1Core
+All Times:        165.3M
+All Speed:        1913
+
+ECALL Times:      49697754
+ECALL Speed:      575
+
+Eff. Cov:         12.68%
+
+36840773 Enter ecall_create_wallet
+12856981 Enter ecall_remove_item
+

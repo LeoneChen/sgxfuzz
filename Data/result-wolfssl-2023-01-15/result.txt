@@ -1,0 +1,25 @@
+Time:             24H*1Core
+All Times:        104.8M
+All Speed:        1213
+
+ECALL Times:      40103644
+ECALL Speed:      464.16
+
+Eff. Cov:         0.38%
+
+1626791 Enter enc_wolfSSL_Cleanup
+1756528 Enter enc_wolfSSL_connect
+1706829 Enter enc_wolfSSL_CTX_free
+2658552 Enter enc_wolfSSL_CTX_new
+5130723 Enter enc_wolfSSL_CTX_use_PrivateKey_buffer
+4107017 Enter enc_wolfSSL_free
+1674222 Enter enc_wolfSSL_get_error
+1605543 Enter enc_wolfSSL_Init
+1756834 Enter enc_wolfSSL_new
+7788688 Enter enc_wolfSSL_read
+1668886 Enter enc_wolfSSL_set_fd
+1875039 Enter enc_wolfSSL_write
+1381563 Enter enc_wolfTLSv1_2_client_method
+1394168 Enter enc_wolfTLSv1_2_server_method
+2595951 Enter wc_benchmark_test
+1376310 Enter wc_test

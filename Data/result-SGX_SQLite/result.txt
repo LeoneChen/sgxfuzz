@@ -1,0 +1,11 @@
+Time:             24H*Core
+All Times:        100.8M
+All Speed:        14.0k
+
+ECALL Times:      30636983
+ECALL Speed:      354.59
+
+Eff. Cov:         1.45%
+
+18222387 Enter ecall_execute_sql
+12414596 Enter ecall_opendb

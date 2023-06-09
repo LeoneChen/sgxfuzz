@@ -58,7 +58,8 @@ def check_version():
 
 def check_packages():
     try:
-        import mmh3
+        # import mmh3
+        pass
     except ImportError:
         print(FAIL + ERROR_PREFIX + "Package 'mmh3' is missing!" + ENDC)
         return False

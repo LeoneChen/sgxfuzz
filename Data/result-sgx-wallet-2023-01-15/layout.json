@@ -1,0 +1,25 @@
+{
+    "enclave/enclave_t.o": [
+        "ocall_debug_print",
+        "ocall_is_wallet",
+        "ocall_load_wallet",
+        "ocall_save_wallet",
+        "sgx_ecall_add_item",
+        "sgx_ecall_change_master_password",
+        "sgx_ecall_create_wallet",
+        "sgx_ecall_remove_item",
+        "sgx_ecall_show_wallet"
+    ],
+    "enclave/enclave.o": [
+        "ecall_add_item",
+        "ecall_change_master_password",
+        "ecall_create_wallet",
+        "ecall_remove_item",
+        "ecall_show_wallet",
+        "hprintf(char const*, ...)"
+    ],
+    "enclave/sealing/sealing.o": [
+        "seal_wallet(Wallet const*, _sealed_data_t*, unsigned long)",
+        "unseal_wallet(_sealed_data_t const*, Wallet*, unsigned int)"
+    ]
+}

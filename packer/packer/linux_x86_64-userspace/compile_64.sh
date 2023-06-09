@@ -3,7 +3,7 @@ mkdir -p bin64/
 if [ "$LEGACY_MODE" = "ON" ]
 then
   # old kAFL mode shared library
-  gcc -shared -O0 -m64 -Werror -DLEGACY_MODE -fPIC src/ld_preload_fuzz.c src/misc/crash_handler.c src/misc/harness_state.c src/misc/struct_synth_report.c src/netfuzz/syscalls.c -I../../agents -o bin64/ld_preload_fuzz_legacy.so -ldl -lZydis -Isrc
+  gcc -shared -O0 -m64 -Werror -DLEGACY_MODE -fPIC src/ld_preload_fuzz.c src/misc/crash_handler.c src/misc/harness_state.c src/misc/struct_synth_report.c src/netfuzz/syscalls.c -I../../agents -o bin64/ld_preload_fuzz_legacy.so -ldl -lZydis -Isrc -L../../../zydis/install/lib -I../../../zydis/install/include
 else
   # latest and greatest nyx shared library
 

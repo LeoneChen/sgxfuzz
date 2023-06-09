@@ -95,7 +95,7 @@ class qemu:
                     ",input_buffer_size=" + str(self.payload_size)
 
         if self.config.argument_values['dump_pt']:
-            self.cmd += ",dump_pt_trace"
+            self.cmd += ",dump_pt_trace,edge_cb_trace"
 
         if self.debug_mode:
             self.cmd += ",debug_mode"
@@ -186,6 +186,7 @@ class qemu:
                 self.cmd[c] = "nokaslr oops=panic nopti mitigations=off console=ttyS0"
                 break
             c += 1
+        print("QEMU CMD:" + " ".join(self.cmd))
 
     # Asynchronous exit by slave instance. Note this may be called multiple times
     # while we were in the middle of shutdown(), start(), send_payload(), ..
@@ -324,7 +325,7 @@ class qemu:
         logging.debug("%s Handshake done." % self)
 
         self.qemu_aux_buffer.set_reload_mode(True)
-        self.qemu_aux_buffer.set_timeout(0.8)
+        self.qemu_aux_buffer.set_timeout(4)
 
         return True
 
@@ -463,6 +464,12 @@ class qemu:
         # self.audit(result)
         return result
 
+    def hprint_log(self, qemuID, msg):
+        fileName = self.config.argument_values['work_dir'] + \
+            "/hprint_log_%s" % qemuID
+        with open(fileName, "a") as f:
+            f.write(msg+"\n")
+
     def send_payload(self):
         if self.exiting:
             sys.exit(0)
@@ -489,6 +496,7 @@ class qemu:
                 else:
                     logging.info("hprintf:\n" + msg)
                 logging.info(("QEMU%s hprintf:\n" % self.qemu_id) + msg.rstrip())
+                self.hprint_log(self.qemu_id, msg.rstrip())
                 continue
 
             if result.exec_code == RC.ABORT:
@@ -553,10 +561,12 @@ class qemu:
             return "regular"
         elif result.exec_code == RC.STARVED:
             return "regular"
+        elif result.exec_code == RC.HPRINTF:
+            return "regular"
         else:
             raise QemuIOException("Unknown QemuAuxRC code")
     
-    def execute_in_trace_mode(self, trace_timeout=None):
+    def execute_in_trace_mode(self, timeout_detection=None):
         logging.info("QEMU%s Performing trace iteration..." % self.qemu_id)
         exec_res = None
         try:

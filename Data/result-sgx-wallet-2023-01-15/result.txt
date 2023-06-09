@@ -1,0 +1,11 @@
+Time:             24H*1Core
+All Times:        141.2M
+All Speed:        1634
+
+ECALL Times:      16972730
+ECALL Speed:      196
+
+Eff. Cov:         6.06%
+
+16972730 Enter ecall_add_item
+

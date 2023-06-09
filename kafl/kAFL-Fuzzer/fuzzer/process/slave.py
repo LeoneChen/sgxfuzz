@@ -104,7 +104,7 @@ class SlaveProcess:
                 payload = rand.bytes(rand.int(32))
                 self.logic.process_node(payload, meta_data)
         else:
-            logging.info("QEMU%s No ready work items, waiting...")
+            logging.info("QEMU%s No ready work items, waiting..." % self.slave_id)
             time.sleep(busy_timeout)
         self.conn.send_ready()
 
