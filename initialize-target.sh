@@ -25,6 +25,8 @@ fi
 NAME=$1
 # enclave memory dump
 ENCLAVE=$(realpath "$2")
+CORE_OFFSET=${3:?"Please give CPU core offset"}
+TEST=${4:?"Please give test ID"}
 BASE=$(realpath ./)
 
 for t in "$ENCLAVE.tcs.txt" \
@@ -41,7 +43,7 @@ if [[ ! -r "$tcs" ]]; then
 fi
 echo "Using TCS: $tcs"
 
-TYPE=${3:-0}
+TYPE=${5:-0}
 FEATURE=${FEATURES[$TYPE]}
 if [[ -z $FEATURE ]]; then
     echo "Invalid Type: $TYPE"
@@ -50,10 +52,10 @@ fi
 echo "Using Type $TYPE ($FEATURE)"
 
 count=0
-evaldir="$BASE/$NAME-T$TYPE-$(date +%F)"
+evaldir="$BASE/$NAME-$TEST-T$TYPE-$(date +%F)"
 while [[ -e $evaldir ]]; do
-	count=$((count+1))
-	evaldir="$BASE/$NAME-T$TYPE-$(date +%F)_$count"
+	echo "$evaldir exists"
+    exit -1
 done
 
 mkdir -p "$evaldir/sgx_workdir"
@@ -89,6 +91,7 @@ LD_LIBRARY_PATH=. \\
  "$share_dir" \\
  m64 --legacy --purge --no_pt_auto_conf_b --fast_reload_mode \\
  --delayed_init \\
+ --debug_stdin_stderr \\
  $args
 EOF
 
@@ -110,7 +113,10 @@ cat > fuzz.sh <<EOF
  -R \\
  -mem 512 \\
  -funky \\
- -p 40 \\
+ -p 1 \\
+ -cpu_affinity_offset "$CORE_OFFSET" \\
+ -trace \\
+ -dump_pt \\
  -redqueen -redq_do_simple \\
  $FEATURE \\
  -abort_time 24 \\

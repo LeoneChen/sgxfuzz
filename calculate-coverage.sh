@@ -9,7 +9,7 @@ printf "Using:\t%s\n\t%s\n" "$WORKDIR" "$FUZZ_FOLDER"
 
 PY3=$SGXFUZZ_ROOT/venv-python3/bin/python3
 
-$PY3 /home/jwillbold/kafl/kAFL-Fuzzer/kafl_cov.py \
+$PY3 $SGXFUZZ_ROOT/kafl/kAFL-Fuzzer/kafl_cov.py \
  -sharedir "$FUZZ_FOLDER" \
  -work_dir "$WORKDIR/sgx_workdir" \
  -input "$WORKDIR/sgx_workdir" \

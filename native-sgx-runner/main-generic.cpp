@@ -148,12 +148,19 @@ int run_ecall(char* init_call_file) {
         auto ext_struct = in.serialize_extended();
         report_struct_synth_addrs(ext_struct.c_str(), ext_struct.length());
 
+#if NO_VM_RELOAD == 0
+        hprintf("Try ECall ID %d\n", ecall_id);
+#endif
         uint64_t ocall = enc.ecall_entry_intel_sdk(ecall_id, in.generate());
         return (int) ocall + 1;
     }
 }
 
 int main(int argc, char** argv) {
+#if NO_VM_RELOAD == 0
+    hprintf("Enclave: Base=%016p Size=0x%016lx\n", enclave_start,
+            &enclave_end - enclave_start);
+#endif
     if (argc >= 2) {
         printf("Reading %s as init call input\n", argv[1]);
         return run_ecall(argv[1]);

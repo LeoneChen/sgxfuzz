@@ -22,7 +22,7 @@ default_config = {
     "PAYLOAD_PREFIX_SHM_SIZE": 0x1000,
     "BITMAP_SHM_SIZE": 0x10000,
     "AGENT_MAX_SIZE": 0x8000000,
-    "QEMU_KAFL_LOCATION": "QEMU-Nyx/x86_64-softmmu/qemu-system-x86_64",
+    "QEMU_KAFL_LOCATION": "../QEMU-Nyx/x86_64-softmmu/qemu-system-x86_64",
     "RADAMSA_LOCATION": "radamsa/bin/radamsa",
     "TIMEOUT_TICK_FACTOR": 10.0,
     "ARITHMETIC_MAX": 35,
@@ -151,13 +151,9 @@ def add_args_fuzzer(parser):
     parser.add_argument('-cpu_affinity_offset', metavar='<n>', help="number to add to the cpu affinity.",
                         type=int, required=False)
     parser.add_argument('-abort_time', metavar='<n>', help="exit after n hours",
-                        type=int, required=False, default=None)
+                        type=float, required=False, default=None)
     parser.add_argument('-abort_exec', metavar='<n>', help="exit after max executions",
                         type=int, required=False, default=None)
-    parser.add_argument('-no_pipe_hprintf', required=False, help="disable hprintf pipe to seperate log file", 
-                        action='store_true', default=False)
-    parser.add_argument('-no_pipe_serial', required=False, help="disable serial output pipe to seperate log file",
-                        action='store_true', default=False)
 
 # Qemu/Slave-specific launch options
 def add_args_qemu(parser):
@@ -210,6 +206,10 @@ def add_args_qemu(parser):
     parser.add_argument('-catch_resets', required=False, help='interpret silent VM reboot as KASAN events',
                         action='store_true', default=False)
     parser.add_argument('-gdbserver', required=False, help='enable Qemu gdbserver (use via kafl_debug.py!)',
+                        action='store_true', default=False)
+    parser.add_argument('-no_pipe_hprintf', required=False, help="disable hprintf pipe to seperate log file", 
+                        action='store_true', default=False)
+    parser.add_argument('-no_pipe_serial', required=False, help="disable serial output pipe to seperate log file",
                         action='store_true', default=False)
 
 

@@ -26,7 +26,7 @@ echo "build with:" "$(strings "$enclave" | grep SGX_TSTDC_VERSION)"
 echo
 
 echo "--- SGX SIGN ---"
-$SIGNTOOL gendata -enclave "$enclave" -out "$out" "$@" | grep -vF '<' > "$dump" || { rm -f -- "$dump"; exit 1; }
+$SIGNTOOL gendata -ignore-init-sec-error -enclave "$enclave" -out "$out" "$@" | grep -vF '<' > "$dump" || { rm -f -- "$dump"; exit 1; }
 echo "--- SGX SIGN END ---"
 rm -f -- "$out"
 
